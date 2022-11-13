@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ucp_flutter_demo_app/src/screens/home_screen.dart';
+import 'package:ucp_flutter_demo_app/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,11 +34,12 @@ class MyApp extends StatelessWidget {
           PointerDeviceKind.unknown
         },
       ),
-      title: 'Flutter Demo',
+      title: 'MARVEL API APP',
       theme: ThemeData(
         primarySwatch: const MaterialColor(0xffEC1D24, primaryColor),
       ),
-      home: const HomeScreen(),
+      initialRoute: 'home',
+      onGenerateRoute: onGenerateRoute,
     );
   }
 }

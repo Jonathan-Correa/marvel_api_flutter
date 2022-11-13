@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ucp_flutter_demo_app/src/models/character.dart';
-import 'package:ucp_flutter_demo_app/src/models/marvel_list_item.dart';
+import 'package:ucp_flutter_demo_app/src/models/home_screen_data.dart';
 import 'package:ucp_flutter_demo_app/src/services/marvel_service.dart';
 import 'package:ucp_flutter_demo_app/src/widgets/horizontal_list.dart';
 
@@ -16,32 +15,44 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('MARVEL API')),
-      body: Column(children: [
-        Expanded(
-          child: FutureBuilder(
-            future: MarvelService.getCharacters(),
-            builder: (context, AsyncSnapshot<List<MarvelListItem>> snap) {
-              if (snap.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+      body: FutureBuilder(
+        future: MarvelService.getMarvelData(),
+        builder: (context, AsyncSnapshot<MarvelListsData> snap) {
+          if (snap.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-              if (snap.connectionState == ConnectionState.done &&
-                  snap.hasData) {
-                return HorizontalMarvelList(
+          if (snap.connectionState == ConnectionState.done && snap.hasData) {
+            return ListView(
+              padding: const EdgeInsets.only(bottom: 20),
+              children: [
+                HorizontalMarvelList(
                   title: 'Personajes',
-                  items: snap.data!,
-                );
-              }
+                  items: snap.data!.characters,
+                ),
+                HorizontalMarvelList(
+                  title: 'Series',
+                  items: snap.data!.series,
+                ),
+                HorizontalMarvelList(
+                  title: 'Comics',
+                  items: snap.data!.comics,
+                ),
+                HorizontalMarvelList(
+                  title: 'Eventos',
+                  items: snap.data!.events,
+                ),
+              ],
+            );
+          }
 
-              print(snap.error);
-
-              return const Text('Ha ocurrido un error al obtener los datos');
-            },
-          ),
-        ),
-      ]),
+          return const Center(
+            child: Text('Ha ocurrido un error al obtener los datos'),
+          );
+        },
+      ),
     );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:ucp_flutter_demo_app/src/models/marvel_list_item.dart';
 
-class Character extends MarvelListItem {
+class Comic extends MarvelListItem {
   final int _id;
   final String name;
   final String _description;
   final String image;
 
-  Character({
+  Comic({
     required int id,
     required this.name,
     required this.image,
@@ -21,21 +21,21 @@ class Character extends MarvelListItem {
   String get title => name;
 
   @override
-  String get img => image;
-
-  @override
-  String get heroTag => 'character-$id';
-
-  @override
   String get description => _description;
 
   @override
-  String get type => 'characters';
+  String get img => image;
 
-  factory Character.fromMap(Map<String, dynamic> data) {
-    return Character(
+  @override
+  String get heroTag => 'comic-$id';
+
+  @override
+  String get type => 'comics';
+
+  factory Comic.fromMap(Map<String, dynamic> data) {
+    return Comic(
       id: data['id'],
-      name: data['name'] ?? 'No name',
+      name: data['title'] ?? 'No Title',
       image: '${data['thumbnail']['path']}.${data['thumbnail']['extension']}',
       description: data['description'] ?? '',
     );
